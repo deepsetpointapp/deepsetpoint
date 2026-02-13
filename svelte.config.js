@@ -6,11 +6,13 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const config = {
   preprocess: vitePreprocess(),
   kit: {
-    adapter: adapter(),
-    // ✅ CRITICAL FIX: SUPPRESS PRERENDER ERRORS FOR DYNAMIC PAGES
+    adapter: adapter({
+      // ✅ CRITICAL: Enables SPA-like behavior
+      fallback: 'index.html'
+    }),
+    // ✅ CRITICAL: Disable prerendering for dynamic routes
     prerender: {
-      handleHttpError: 'warn', // Allow build to complete despite dynamic routes
-      handleMissingId: 'warn'
+      default: false
     }
   }
 };
