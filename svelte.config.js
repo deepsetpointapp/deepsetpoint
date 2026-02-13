@@ -7,10 +7,8 @@ const config = {
   preprocess: vitePreprocess(),
   kit: {
     adapter: adapter({
-      // ✅ CRITICAL: Enables SPA-like behavior for all routes
       fallback: 'index.html'
     }),
-    // ✅ CRITICAL: Disable ALL prerendering
     prerender: {
       default: false
     }
