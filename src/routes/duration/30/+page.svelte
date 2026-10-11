@@ -82,7 +82,7 @@
 <div style="position:fixed;top:0;left:0;width:100vw;height:100dvh;z-index:9999;background:black;overflow:hidden;margin:0;padding:0">
   <video 
     bind:this={videoEl}
-    src="https://customer-b3ykgf0wdbmm63pk.cloudflarestream.com/5036980b306b74db7e076f42d3e34803/manifest/video.m3u8"
+    src="https://customer-b3ykgf0wdbmm63pk.cloudflarestream.com/a62f56624e3bfc2c567361661d1fb79a/manifest/video.m3u8"
     muted
     autoplay
     playsinline

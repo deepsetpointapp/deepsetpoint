@@ -1,8 +1,8 @@
 <script>
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
-  import { onDestroy, onMount, tick } from 'svelte'; // ✅ ADDED tick
-  
+  import { onDestroy, onMount, tick } from 'svelte';
+
   let lang = $page.url.searchParams.get('lang') || 'en';
   let emotion = $page.url.searchParams.get('emotion') || '';
   
@@ -23,7 +23,7 @@
 
   $: t = translations[lang] || translations.en;
   $: emotionText = t.emotion.replace('{emotion}', emotion);
-  $: audioSrc = duration === 36 ? `/audio/${lang}-mirror.mp3` : `/audio/${lang}-complete.mp3`;
+  $: audioSrc = duration === 36 ? `/${lang}-mirror.mp3` : `/${lang}-complete.mp3`;
   $: secondsInPhase = 6 - (progress % 6);
   $: phaseNumber = Math.floor(progress / 6) + 1;
   $: mirrorPhaseColor = getMirrorPhaseColor(progress);
@@ -61,7 +61,7 @@
     }
     
     duration = durationSeconds;
-    const newAudioSrc = duration === 36 ? `/audio/${lang}-mirror.mp3` : `/audio/${lang}-complete.mp3`;
+    const newAudioSrc = duration === 36 ? `/${lang}-mirror.mp3` : `/${lang}-complete.mp3`;
     
     if (!audio || audio.src !== newAudioSrc) {
       if (audio) {
@@ -97,11 +97,9 @@
     goto(`/duration?lang=${lang}&emotion=${encodeURIComponent(emotion)}`);
   }
 
-  // ✅ CRITICAL FIX: RESET SCROLL AFTER FULL RENDER (PREVENTS DISPLACEMENT)
   onMount(async () => {
-    await tick(); // Wait for DOM to fully render
+    await tick();
     window.scrollTo(0, 0);
-    // Force scroll reset again after any async content loads
     setTimeout(() => window.scrollTo(0, 0), 100);
   });
 
@@ -119,7 +117,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 </svelte:head>
 
-<!-- ✅ FIXED CONTAINER: PREVENTS LAYOUT SHIFT FROM DYNAMIC CONTENT -->
 <main style="min-height:100vh; height:100%; background: linear-gradient(135deg, #f4c430 0%, #e6b800 50%, #b8860b 100%); padding:1.5rem; font-family: -apple-system, sans-serif; text-align:center; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
   <button 
     on:click={goBack}
@@ -128,14 +125,12 @@
     {t.back}
   </button>
 
-  <!-- ✅ FIXED HEIGHT CONTAINER FOR EMOTION NOTICE (PREVENTS SHIFT) -->
   <div style="margin-top:3rem; padding:0.8rem; background:rgba(255,255,255,0.15); backdrop-filter:blur(10px); border-radius:1rem; max-width:24rem; margin:1.5rem auto 0; min-height:3rem; display:flex; align-items:center; justify-content:center;">
     <div style="color:#4ade80; font-size:var(--text-sm); font-weight:700; text-shadow:0 2px 4px rgba(0,0,0,0.2);">
       {emotion}
     </div>
   </div>
 
-  <!-- ✅ FIXED HEIGHT CONTAINER FOR BUTTONS (PREVENTS SHIFT) -->
   <div style="margin-top:1.5rem; max-width:280px; width:100%; margin-left:auto; margin-right:auto; min-height:300px; display:flex; flex-direction:column; justify-content:flex-start;">
     <div style="margin-bottom:1.6rem;">
       <h2 style="font-size:var(--text-base); font-weight:800; color:white; text-shadow:0 2px 4px rgba(0,0,0,0.2); margin-bottom:0.9rem;">
@@ -238,12 +233,11 @@
   :global(html, body) {
     margin: 0 !important;
     padding: 0 !important;
-    overflow-x: hidden !important; /* Prevent horizontal scroll */
+    overflow-x: hidden !important;
     width: 100vw !important;
     height: 100vh !important;
   }
   
-  /* CRITICAL: PREVENT BROWSER SCROLL RESTORATION */
   :global(body) {
     scroll-behavior: auto !important;
   }

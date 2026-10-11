@@ -1,16 +1,15 @@
-import adapter from '@sveltejs/adapter-static';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import adapter from '@sveltejs/adapter-vercel';
 
+/** @type {import('@sveltejs/kit').Config} */
 const config = {
-  preprocess: vitePreprocess(),
-  kit: {
-    adapter: adapter({
-      fallback: 'index.html'
-    }),
-    prerender: {
-      entries: []
-    }
-  }
+	kit: {
+		// Use the Vercel adapter
+		adapter: adapter({
+			runtime: 'nodejs18.x'
+		})
+		// No manual prerender block needed! 
+		// Vercel automatically detects static vs dynamic.
+	}
 };
 
 export default config;
