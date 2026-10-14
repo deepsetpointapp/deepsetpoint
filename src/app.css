@@ -1,103 +1,90 @@
-/* ============================================
-   TRUE RESPONSIVE FOUNDATION - WORKS ON ALL DEVICES
-   ============================================ */
+/* src/app.css oder globaler Style */
 :root {
-  /* Fluid typography scale (scales with screen size) */
-  --text-xs: clamp(0.75rem, 1.8vw, 0.875rem);
-  --text-sm: clamp(0.875rem, 2.2vw, 1rem);
-  --text-base: clamp(1rem, 2.6vw, 1.125rem);
-  --text-lg: clamp(1.125rem, 3vw, 1.25rem);
-  --text-xl: clamp(1.25rem, 3.5vw, 1.5rem);
-  --text-2xl: clamp(1.5rem, 4vw, 1.875rem);
-  --text-3xl: clamp(1.875rem, 5vw, 2.25rem);
-  --text-4xl: clamp(2.25rem, 6vw, 3rem);
+  /* Farben */
+  --gold-200: #FFF0A8;
+  --gold-300: #FBD95A;
+  --gold-400: #F5C518;
+  --gold-500: #E9B10F;
+  --gold-600: #DDA10C;
   
-  /* Fluid spacing scale */
-  --space-xs: clamp(0.5rem, 1.5vw, 0.75rem);
-  --space-sm: clamp(0.75rem, 2vw, 1rem);
-  --space-md: clamp(1rem, 2.8vw, 1.5rem);
-  --space-lg: clamp(1.5rem, 3.5vw, 2rem);
-  --space-xl: clamp(2rem, 4.5vw, 3rem);
+  --ink-900: #1B1405;       /* Haupttext & Buttons */
+  --ink-700: #4A3708;       /* Sekundärtext */
   
-  /* Fluid container max-width */
-  --container-max-width: min(650px, 95vw);
+  --cream-50: #FFF8E1;      /* Fokusring innen */
+  --cream-100: #FFF7D9;     /* Modal Hintergrund */
+  
+  --glass: rgba(255, 251, 235, 0.58);
+  --glass-strong: rgba(255, 251, 235, 0.86);
+  
+  /* Schatten */
+  --shadow-1: 0 4px 12px rgba(74, 55, 8, 0.16), 0 1px 2px rgba(74, 55, 8, 0.12);
+  --shadow-2: 0 16px 40px rgba(74, 55, 8, 0.28);
+  
+  /* Schriftart */
+  --font-main: 'Inter', 'Roboto', system-ui, sans-serif;
 }
 
-/* ============================================
-   CORE RESPONSIVE RULES (APPLIES TO EVERY PAGE)
-   ============================================ */
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  width: 100%;
-  height: 100%;
+body {
+  min-height: 100dvh;
+  color: var(--ink-900);
+  font-family: var(--font-main);
   margin: 0;
-  padding: 0;
-  overflow-x: hidden !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  -webkit-text-size-adjust: 100%;
+  /* Der neue Gold-Gradient mit Glow */
+  background: 
+    radial-gradient(ellipse 60% 55% at 50% 42%, rgba(255, 244, 190, 0.55), transparent 70%),
+    linear-gradient(150deg, var(--gold-300), var(--gold-400) 42%, var(--gold-600));
+  background-attachment: fixed; /* Verhindert Kanten beim Scrollen */
 }
 
-/* ============================================
-   UNIVERSAL RESPONSIVE CONTAINER
-   Wrap ALL page content in this div
-   ============================================ */
-.app-container {
-  width: 100%;
-  max-width: var(--container-max-width);
-  margin: 0 auto;
-  padding: var(--space-md);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* Basis Button Styles */
+.btn {
+  height: 64px;
+  padding: 0 40px;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  background: var(--ink-900);
+  color: var(--gold-300);
+  font: 600 20px/1 var(--font-main);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 5;
+  gap: 12px;
+  transition: transform 0.1s, background 0.16s;
+  box-shadow: var(--shadow-1);
 }
 
-/* ============================================
-   RESPONSIVE TYPOGRAPHY (NO MORE ZOOMING)
-   ============================================ */
-h1, h2, h3, h4, h5, h6 {
-  line-height: 1.2;
-  margin: 0;
-  padding: 0;
+.btn:hover {
+  background: #2B2008; /* Etwas helleres Ink für Hover */
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
 }
 
-p, button, input, label, span, div {
-  line-height: 1.5;
-  margin: 0;
-  padding: 0;
+.btn:active {
+  transform: scale(0.98);
 }
 
-/* ============================================
-   MOBILE-FIRST MEDIA QUERIES (AUTOMATIC)
-   ============================================ */
-@media (max-width: 480px) {
-  :root {
-    --space-xs: clamp(0.4rem, 1.3vw, 0.6rem);
-    --space-sm: clamp(0.6rem, 1.7vw, 0.8rem);
-    --space-md: clamp(0.8rem, 2.3vw, 1.1rem);
-    --space-lg: clamp(1.1rem, 3vw, 1.5rem);
-    --space-xl: clamp(1.5rem, 4vw, 2rem);
-  }
-  
-  input, textarea, select {
-    font-size: 16px !important;
-  }
+/* Ghost Button (für Alternativen) */
+.btn--ghost {
+  background: transparent;
+  color: var(--ink-900);
+  box-shadow: inset 0 0 0 2px var(--ink-900);
 }
 
-/* ============================================
-   SAFE AREA INSETS (IPHONE NOTCH SUPPORT)
-   ============================================ */
-@supports (padding: max(0px)) {
-  body {
-    padding-top: max(env(safe-area-inset-top), var(--space-sm));
-    padding-bottom: max(env(safe-area-inset-bottom), var(--space-sm));
-    padding-left: max(env(safe-area-inset-left), var(--space-sm));
-    padding-right: max(env(safe-area-inset-right), var(--space-sm));
+.btn--ghost:hover {
+  background: var(--glass-strong);
+}
+
+/* Fokus-Ring für Barrierefreiheit */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--cream-50), 0 0 0 6px var(--ink-900);
+}
+
+/* Bewegung reduzieren für Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
   }
 }
