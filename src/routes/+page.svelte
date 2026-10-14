@@ -1,92 +1,169 @@
 <script>
   import { goto } from '$app/navigation';
-  
-  function start() {
-    // No browser/localStorage checks — handled in /intro
+
+  function startExperience() {
     goto('/intro');
   }
 </script>
 
 <svelte:head>
+  <title>DeepSetPoint - The 18 Second DSP-Shift</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 </svelte:head>
 
-<div style="
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(135deg, #f4c430 0%, #e6b800 50%, #b8860b 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: max(2rem, env(safe-area-inset-top, 2rem)) 1.5rem max(3rem, env(safe-area-inset-bottom, 3rem));
-  box-sizing: border-box;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-">
-  <h1 style="
-    font-size: clamp(6rem, 20vw, 14rem);
-    line-height: 1;
-    font-weight: 900;
-    color: #ffd700;
-    text-shadow: 0 20px 70px rgba(0,0,0,0.5);
-    margin: 0 0 1.2rem;
-    letter-spacing: -0.04em;
-    text-align: center;
-  ">
-    DeepSetPoint
-  </h1>
+<div class="container">
+  <div class="content">
+    
+    <!-- LOGO: Now using the real SVG file from /public -->
+    <!-- Spec: 96x96, centered, 24px margin to title -->
+    <div class="logo-wrapper">
+      <img src="/DSP-Logo.svg" alt="DeepSetPoint Logo" class="logo-img" />
+    </div>
 
-  <p style="
-    font-size: clamp(1.4rem, 4.5vw, 2.2rem);
-    color: white;
-    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    margin: 0 0 2.5rem;
-    text-align: center;
-    line-height: 1.35;
-  ">
-    The 18 Second DSP-Shift<br>
-    Your daily emotional anchor
-  </p>
+    <!-- TITEL: 56/60, 700, ink (#1B1405) -->
+    <h1 class="title">DeepSetPoint</h1>
+    
+    <!-- UNTERTITEL: 28/36, 600, ink -->
+    <p class="subtitle">The 18 Second DSP-Shift</p>
+    
+    <!-- TAGLINE: 20/28, 500, ink-700 -->
+    <p class="tagline">Your daily emotional anchor</p>
 
-  <button
-    on:click={start}
-    style="
-      font-size: clamp(1.2rem, 4vw, 1.6rem);
-      font-weight: 700;
-      color: #1a1a1a;
-      background: #ffd700;
-      padding: 0.7rem 2rem;
-      border-radius: 2rem;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.25s cubic-bezier(0.17, 0.67, 0.88, 1.01);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-      max-width: 90%;
-      text-align: center;
-      display: inline-block;
-      min-height: 3.2rem;
-      border: none;
-    "
-  >
-    Start Experience
-  </button>
+    <!-- BUTTON: Height 72, min-width 320, padding 0 40, Radius 999 -->
+    <button class="btn-start" on:click={startExperience}>
+      <span>Start Experience</span>
+      <!-- Arrow Icon -->
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="#FBD95A" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+  </div>
 </div>
 
 <style>
-  :global(html), :global(body) {
-    margin: 0;
-    padding: 0;
+  :root {
+    --gold-300: #FBD95A;
+    --gold-400: #F5C518;
+    --gold-600: #DDA10C;
+    --ink-900: #1B1405;
+    --ink-700: #4A3708;
+    --font-main: 'Inter', 'Roboto', system-ui, sans-serif;
+  }
+
+  .container {
+    min-height: 100dvh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Background: Gradient + Glow as per PDF */
+    background: 
+      radial-gradient(ellipse 60% 55% at 50% 42%, rgba(255, 244, 190, 0.55), transparent 70%),
+      linear-gradient(150deg, var(--gold-300), var(--gold-400) 42%, var(--gold-600));
+    background-attachment: fixed;
     overflow: hidden;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 560px;
+    width: 100%;
+    padding: 24px;
+    box-sizing: border-box;
+    margin-top: -20px; /* Slightly above center visually */
+  }
+
+  .logo-wrapper {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 24px;
+    flex-shrink: 0;
+    /* Optional: Add a subtle drop shadow to the logo itself if needed, 
+       but the SVG already has contrast */
+    filter: drop-shadow(0 4px 6px rgba(27, 20, 5, 0.15));
+  }
+
+  .logo-img {
     width: 100%;
     height: 100%;
-    touch-action: manipulation;
+    display: block;
+    object-fit: contain;
   }
-  button:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+
+  .title {
+    font-size: 56px;
+    line-height: 60px;
+    font-weight: 700;
+    color: var(--ink-900);
+    margin: 0 0 12px 0;
+    text-align: center;
+    letter-spacing: -0.02em;
   }
-  button:active {
-    transform: translateY(0) scale(0.98);
+
+  .subtitle {
+    font-size: 28px;
+    line-height: 36px;
+    font-weight: 600;
+    color: var(--ink-900);
+    margin: 0 0 8px 0;
+    text-align: center;
+  }
+
+  .tagline {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 500;
+    color: var(--ink-700);
+    margin: 0 0 48px 0;
+    text-align: center;
+  }
+
+  .btn-start {
+    height: 72px;
+    min-width: 320px;
+    padding: 0 40px;
+    border-radius: 999px;
+    border: none;
+    background: var(--ink-900);
+    color: var(--gold-300);
+    font: 600 20px/1 var(--font-main);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 16px 40px rgba(27, 20, 5, 0.28);
+    transition: transform 0.1s, background 0.16s, box-shadow 0.16s;
+    width: auto;
+  }
+
+  .btn-start:hover {
+    background: #2B2008;
+    transform: translateY(-2px);
+    box-shadow: 0 20px 50px rgba(27, 20, 5, 0.35);
+  }
+
+  .btn-start:active {
+    transform: scale(0.98);
+  }
+
+  @media (max-width: 640px) {
+    .title {
+      font-size: 40px;
+      line-height: 44px;
+    }
+    .subtitle {
+      font-size: 22px;
+      line-height: 28px;
+    }
+    .btn-start {
+      width: calc(100% - 48px);
+      max-width: 360px;
+      height: 64px;
+    }
   }
 </style>
