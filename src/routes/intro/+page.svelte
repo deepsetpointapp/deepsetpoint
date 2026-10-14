@@ -2,14 +2,27 @@
 <script>
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
   import { browser } from '$app/environment';
+
+  let video;
 
   onMount(() => {
     if (browser) {
       localStorage.setItem('introSeen', 'true');
+      // Video automatisch abspielen
+      if (video) {
+        video.play().catch(e => console.log('Autoplay prevented:', e));
+      }
     }
   });
+
+  function handleVideoEnd() {
+    goto('/home');
+  }
+
+  function handleSkip() {
+    goto('/home');
+  }
 </script>
 
 <div style="
