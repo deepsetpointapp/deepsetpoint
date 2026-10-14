@@ -9,9 +9,14 @@
   onMount(() => {
     if (browser) {
       localStorage.setItem('introSeen', 'true');
-      // Video automatisch abspielen
+      // Video automatisch abspielen (mit Ton!)
       if (video) {
-        video.play().catch(e => console.log('Autoplay prevented:', e));
+        video.play().catch(e => {
+          console.log('Autoplay with audio failed:', e);
+          // Fallback: wenn Autoplay mit Ton blockiert wird, dann stumm
+          video.muted = true;
+          video.play();
+        });
       }
     }
   });
@@ -39,11 +44,10 @@
     bind:this={video}
     src="/intro.mp4"
     playsinline
-    muted
     style="
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
       display: block;
     "
     on:ended={handleVideoEnd}
@@ -51,28 +55,27 @@
     controlsList="nodownload nofullscreen noremoteplayback"
   ></video>
 
-  <!-- SKIP BUTTON: bottom-right, safe-area aware -->
+  <!-- SKIP BUTTON: Klein, unten rechts -->
   <button
     on:click={handleSkip}
     style="
       position: fixed;
-      bottom: max(1.2rem, env(safe-area-inset-bottom, 1.2rem));
-      right: max(1.2rem, env(safe-area-inset-right, 1.2rem));
-      padding: 0.4rem 0.95rem;
-      background: rgba(0,0,0,0.7);
-      color: white;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 0.5rem 1.5rem;
+      background: rgba(255,255,255,0.9);
+      color: #000;
       border: none;
-      border-radius: 0.9rem;
-      font-size: clamp(0.95rem, 3.4vw, 1.2rem);
+      border-radius: 2rem;
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 3px 14px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       z-index: 10001;
-      min-height: 2.5rem;
-      max-width: 30%;
-      text-align: center;
+      transition: all 0.2s;
     "
+    on:mouseenter={(e) => e.target.style.transform = 'scale(1.05)'}
+    on:mouseleave={(e) => e.target.style.transform = 'scale(1)'}
     aria-label="Skip intro"
   >
     SKIP
