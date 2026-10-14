@@ -40,10 +40,11 @@
   z-index: 10000;
   overflow: hidden;
 ">
-  <video
+    <video
     bind:this={video}
     src="/intro.mp4"
     playsinline
+    aria-label="Intro video" 
     style="
       width: 100%;
       height: 100%;
