@@ -1,90 +1,39 @@
-/* src/app.css oder globaler Style */
+/* BLAUER RAND ENTFERNEN - GLOBAL */
 :root {
-  /* Farben */
   --gold-200: #FFF0A8;
   --gold-300: #FBD95A;
   --gold-400: #F5C518;
   --gold-500: #E9B10F;
   --gold-600: #DDA10C;
-  
-  --ink-900: #1B1405;       /* Haupttext & Buttons */
-  --ink-700: #4A3708;       /* Sekundärtext */
-  
-  --cream-50: #FFF8E1;      /* Fokusring innen */
-  --cream-100: #FFF7D9;     /* Modal Hintergrund */
-  
+  --ink-900: #1B1405;
+  --ink-700: #4A3708;
+  --cream-50: #FFF8E1;
+  --cream-100: #FFF7D9;
   --glass: rgba(255, 251, 235, 0.58);
   --glass-strong: rgba(255, 251, 235, 0.86);
-  
-  /* Schatten */
   --shadow-1: 0 4px 12px rgba(74, 55, 8, 0.16), 0 1px 2px rgba(74, 55, 8, 0.12);
   --shadow-2: 0 16px 40px rgba(74, 55, 8, 0.28);
-  
-  /* Schriftart */
   --font-main: 'Inter', 'Roboto', system-ui, sans-serif;
 }
 
-body {
-  min-height: 100dvh;
-  color: var(--ink-900);
-  font-family: var(--font-main);
+* {
   margin: 0;
-  /* Der neue Gold-Gradient mit Glow */
-  background: 
-    radial-gradient(ellipse 60% 55% at 50% 42%, rgba(255, 244, 190, 0.55), transparent 70%),
-    linear-gradient(150deg, var(--gold-300), var(--gold-400) 42%, var(--gold-600));
-  background-attachment: fixed; /* Verhindert Kanten beim Scrollen */
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Basis Button Styles */
-.btn {
-  height: 64px;
-  padding: 0 40px;
-  border: 0;
-  border-radius: 999px;
-  cursor: pointer;
-  background: var(--ink-900);
-  color: var(--gold-300);
-  font: 600 20px/1 var(--font-main);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  transition: transform 0.1s, background 0.16s;
-  box-shadow: var(--shadow-1);
+:global(html), :global(body) {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  background: transparent !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.btn:hover {
-  background: #2B2008; /* Etwas helleres Ink für Hover */
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-2);
-}
-
-.btn:active {
-  transform: scale(0.98);
-}
-
-/* Ghost Button (für Alternativen) */
-.btn--ghost {
-  background: transparent;
-  color: var(--ink-900);
-  box-shadow: inset 0 0 0 2px var(--ink-900);
-}
-
-.btn--ghost:hover {
-  background: var(--glass-strong);
-}
-
-/* Fokus-Ring für Barrierefreiheit */
-:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px var(--cream-50), 0 0 0 6px var(--ink-900);
-}
-
-/* Bewegung reduzieren für Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
-  }
+:global(#__svelte) {
+  width: 100%;
+  height: 100%;
 }

@@ -1,85 +1,242 @@
 <script>
-  import { page } from '$app/stores';
   import { goto } from '$app/navigation';
-  import { onMount, tick } from 'svelte';
-  
-  let lang = $page.url.searchParams.get('lang') || 'en';
-  let userSelectedLang = '';
-  
-  const translations = {
-    en: { title: '🧘‍♂️ DeepSetpoint', subtitle: 'The 18 Second DSP-Shift', description: 'Your daily emotional anchor', choose: 'Choose Your Language' },
-    fr: { title: '🧘‍♂️ DeepSetpoint', subtitle: 'Le Décalage DSP de 18 Secondes', description: 'Votre ancre émotionnelle quotidienne', choose: 'Choisissez Votre Langue' },
-    de: { title: '🧘‍♂️ DeepSetpoint', subtitle: 'Der 18-Sekunden DSP-Wechsel', description: 'Ihr täglicher emotionaler Anker', choose: 'Wählen Sie Ihre Sprache' },
-    pt: { title: '🧘‍♂️ DeepSetpoint', subtitle: 'O Deslocamento DSP de 18 Segundos', description: 'Sua âncora emocional diária', choose: 'Escolha Sua Língua' },
-    es: { title: '🧘‍♂️ DeepSetpoint', subtitle: 'El Cambio DSP de 18 Segundos', description: 'Tu ancla emocional diaria', choose: 'Elige Tu Idioma' },
-    it: { title: '🧘‍♂️ DeepSetpoint', subtitle: 'Il Cambio DSP di 18 Secondi', description: "Il tuo ancora emotiva quotidiana", choose: 'Scegli La Tua Lingua' }
-  };
 
-  $: t = translations[lang] || translations.en;
-  
   const languages = [
-    { code: 'en', label: '🇬🇧', name: 'English' },
-    { code: 'fr', label: '🇫🇷', name: 'Français' },
-    { code: 'de', label: '🇩🇪', name: 'Deutsch' },
-    { code: 'pt', label: '🇵🇹', name: 'Português' },
-    { code: 'es', label: '🇪🇸', name: 'Español' },
-    { code: 'it', label: '🇮🇹', name: 'Italiano' }
+    { code: 'en', flag: '🇬🇧', name: 'English' },
+    { code: 'fr', flag: '🇫🇷', name: 'Français' },
+    { code: 'de', flag: '🇩🇪', name: 'Deutsch' },
+    { code: 'pt', flag: '🇵🇹', name: 'Português' },
+    { code: 'es', flag: '🇪🇸', name: 'Español' },
+    { code: 'it', flag: '🇮🇹', name: 'Italiano' }
   ];
 
+  let selectedLang = null;
+
   function selectLanguage(code) {
-    userSelectedLang = code;
-    lang = code;
+    selectedLang = code;
+    setTimeout(() => {
+      goto(`/emotions?lang=${code}`);
+    }, 300);
   }
-  
-  onMount(async () => {
-    await tick();
-    window.scrollTo(0, 0);
-    setTimeout(() => window.scrollTo(0, 0), 100);
-  });
 </script>
 
 <svelte:head>
-  <title>{t.title}</title>
+  <title>DeepSetPoint - Choose Language</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 </svelte:head>
 
-<main style="min-height:100vh; height:100%; background: linear-gradient(135deg, #f4c430 0%, #e6b800 50%, #b8860b 100%); padding:1.5rem; font-family: -apple-system, sans-serif; text-align:center; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
-  <div style="max-width:500px; width:100%; margin:0 auto; min-height:500px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-    <div style="text-align:center; margin-bottom:1.5rem;">
-      <h1 style="font-size:clamp(2.2rem, 6vw, 2.8rem); font-weight:900; color:white; text-shadow:0 4px 8px rgba(0,0,0,0.3); margin-top:0; line-height:1.2;">{t.title}</h1>
-      <h2 style="font-size:clamp(1.4rem, 4.5vw, 1.8rem); font-weight:700; color:rgba(255,255,255,0.95); margin-bottom:0.8rem; line-height:1.3;">{t.subtitle}</h2>
-      <p style="font-size:clamp(1.2rem, 4vw, 1.5rem); color:rgba(255,255,255,0.9); margin:0; line-height:1.4;">{t.description}</p>
+<div class="container">
+  <div class="content">
+    <!-- GROßES DSP LOGO -->
+    <div class="logo-container">
+      <svg class="logo-svg" viewBox="0 0 1500 1499.999933" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="logoClip"><circle cx="750" cy="750" r="750"/></clipPath>
+        </defs>
+        <g clip-path="url(#logoClip)">
+          <rect width="1500" height="1500" fill="#1B1405"/>
+          <text x="50%" y="50%" text-anchor="middle" dy=".35em" font-family="sans-serif" font-weight="900" font-size="520" fill="#FBD95A" letter-spacing="-20">DSP</text>
+        </g>
+      </svg>
     </div>
-    <div style="text-align:center; margin-bottom:1.5rem;">
-      <h3 style="color:white; font-size:clamp(1.5rem, 4.2vw, 2rem); font-weight:700; margin-bottom:1.5rem; text-shadow:0 3px 8px rgba(0,0,0,0.2);">{t.choose}</h3>
-    </div>
-    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1.1rem; width:100%; max-width:420px; margin-bottom:1.8rem;">
-      {#each languages as language}
-        <button on:click={() => selectLanguage(language.code)} class:selected={userSelectedLang === language.code} style="padding:0.9rem 0.5rem; border-radius:1.1rem; background:rgba(255,255,255,0.15); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.25); color:white; font-weight:600; font-size:0.95rem; cursor:pointer; transition:all .25s ease; box-shadow:0 4px 12px rgba(0,0,0,0.18); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.4rem; min-height:5.2rem;">
-          <span style="font-size:2rem;">{language.label}</span>
-          <span style="font-size:0.85rem;">{language.name}</span>
+
+    <h1 class="title">DeepSetpoint</h1>
+    <h2 class="subtitle">The 18 Second DSP-Shift</h2>
+    <p class="tagline">Your daily emotional anchor</p>
+    
+    <h3 class="section-title">Choose Your Language</h3>
+    
+    <div class="lang-grid">
+      {#each languages as lang}
+        <button
+          class="lang-btn {selectedLang === lang.code ? 'selected' : ''}"
+          on:click={() => selectLanguage(lang.code)}
+        >
+          <span class="flag">{lang.flag}</span>
+          <span class="name">{lang.name}</span>
         </button>
       {/each}
     </div>
-    {#if userSelectedLang}
-      <div style="text-align:center; padding:1rem; width:100%;">
-        <div style="margin-bottom:1rem; color:#4ade80; font-size:clamp(1.1rem, 3.5vw, 1.3rem); font-weight:700; display:flex; align-items:center; justify-content:center; gap:0.5rem;">
-          <span>✓</span>
-          <span>{languages.find(l => l.code === userSelectedLang)?.name}</span>
-          <span>{languages.find(l => l.code === userSelectedLang)?.label}</span>
-        </div>
-        <a href="/emotions?lang={userSelectedLang}" style="background:linear-gradient(135deg, #4ade80, #22c55e); color:white; padding:0.9rem 1.8rem; border-radius:1.4rem; text-decoration:none; font-weight:700; font-size:clamp(1.1rem, 3.8vw, 1.3rem); box-shadow:0 8px 20px rgba(74,222,128,0.45); display:inline-block; transition:all 0.25s ease; min-width:200px;">
-          {userSelectedLang === 'fr' ? 'Choisis Ton Émotion' : userSelectedLang === 'de' ? 'Wähle Deine Emotion' : userSelectedLang === 'pt' ? 'Escolha Sua Emoção' : userSelectedLang === 'es' ? 'Elige Tu Emoción' : userSelectedLang === 'it' ? 'Scegli La Tua Emozione' : 'Choose Your Emotion'}
-        </a>
+
+    {#if selectedLang}
+      <div class="confirmation">
+        <p>✓ {languages.find(l => l.code === selectedLang).name} {languages.find(l => l.code === selectedLang).flag}</p>
+        <button class="next-btn">Choose Your Emotion</button>
       </div>
     {/if}
   </div>
-</main>
+</div>
 
 <style>
-  button:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 6px 18px rgba(0,0,0,0.25) !important; }
-  button.selected, button.selected:hover { background: linear-gradient(135deg, #4ade80, #22c55e) !important; border-color: #4ade80 !important; box-shadow: 0 10px 24px rgba(74,222,128,0.55) !important; transform: translateY(-3px) scale(1.06) !important; }
-  a:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(74,222,128,0.6) !important; }
-  :global(html, body) { margin: 0 !important; padding: 0 !important; overflow: hidden !important; width: 100vw !important; height: 100vh !important; }
-  :global(body) { scroll-behavior: auto !important; }
+  /* BLAUER RAND ENTFERNEN - WICHTIG! */
+  :global(html), :global(body) {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    background: transparent !important;
+  }
+
+  .container {
+    min-height: 100dvh;
+    width: 100vw;
+    overflow: hidden;
+    background: radial-gradient(ellipse 60% 55% at 50% 42%, rgba(255, 244, 190, 0.55), transparent 70%), 
+                linear-gradient(150deg, #FBD95A, #F5C518 42%, #DDA10C);
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+
+  .content {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* GROßES LOGO - RESPONSIVE */
+  .logo-container {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 8px 24px rgba(27, 20, 5, 0.4));
+  }
+
+  .logo-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .title {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .subtitle {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 600;
+    color: white;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .tagline {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 500;
+    color: rgba(255,255,255,0.95);
+    margin: 0 0 2rem 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 3.5vw, 1.75rem);
+    font-weight: 600;
+    color: white;
+    margin: 1rem 0 1.5rem 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .lang-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(140px, 1fr));
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .lang-btn {
+    height: 96px;
+    border-radius: 24px;
+    background: rgba(255, 251, 235, 0.58);
+    border: 1.5px solid rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.14s ease;
+    box-shadow: 0 4px 12px rgba(74, 55, 8, 0.16);
+  }
+
+  .lang-btn:hover {
+    background: rgba(255, 251, 235, 0.86);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(74, 55, 8, 0.28);
+  }
+
+  .lang-btn.selected {
+    background: #1B1405;
+    color: #FBD95A;
+    border-color: #1B1405;
+  }
+
+  .flag {
+    font-size: 2rem;
+  }
+
+  .name {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .confirmation {
+    margin-top: 2rem;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .confirmation p {
+    font-size: 1.2rem;
+    color: white;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .next-btn {
+    height: 64px;
+    padding: 0 3rem;
+    border-radius: 999px;
+    border: none;
+    background: #10B981;
+    color: white;
+    font: 600 1.25rem/1 system-ui;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+    transition: all 0.16s;
+  }
+
+  .next-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(16, 185, 129, 0.5);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 640px) {
+    .logo-container {
+      width: 150px;
+      height: 150px;
+    }
+    .lang-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .lang-btn {
+      height: 80px;
+    }
+  }
 </style>
